@@ -2,13 +2,9 @@ provider "aws" {
   region = "eu-central-1"  # Укажите нужный регион
 }
 
-variable "ami_id" {
-  description = "AMI ID for the instance"
-  type        = string
-}
 
 resource "aws_instance" "web" {
-  ami           = var.ami_id  # Используем переменную ami_id
+  ami           = "ami-0d17018cef51af497"
   instance_type = "t2.micro"
 
   # Привязка группы безопасности
