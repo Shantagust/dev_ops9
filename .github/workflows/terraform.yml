@@ -3,30 +3,33 @@ name: Deploy AWS Instance with Terraform
 on:
   push:
     branches:
-      - main  # Запуск при пуше в ветку main
+      - main
 
 jobs:
   terraform:
-    runs-on: ubuntu-latest  # Используем Ubuntu для работы
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2  # Шаг для получения кода репозитория
+        uses: actions/checkout@v2
 
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2  # Шаг для установки Terraform
-      - name: Debug AWS credentials
-        run: echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}"
-      - name: Debug AWS credentials
-        run: echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+        uses: hashicorp/setup-terraform@v2
+
       - name: Terraform Init
-        run: terraform init  # Инициализация Terraform
+        run: terraform init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Terraform Plan
-        run: terraform plan  # Передаем AMI ID из секретов
+        run: terraform plan"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Terraform Apply
-        run: terraform apply  # Применяем изменения
+        run: terraform apply"
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}  # Учетные данные для доступа
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
