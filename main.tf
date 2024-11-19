@@ -1,5 +1,6 @@
 provider "aws" {
   region = "eu-central-1"  # Укажите нужный регион
+  version = "~> 4.0"
 }
 
 
